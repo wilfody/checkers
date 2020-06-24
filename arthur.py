@@ -6,7 +6,7 @@
 # Last updated: July 21, 2014
 
 import sys
-
+from functools import reduce
 # Constants
 BLACK, WHITE = 0, 1
 VALID_SQUARES = 0x7FBFDFEFF

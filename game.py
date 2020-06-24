@@ -14,121 +14,122 @@ import sys
 BLACK, WHITE = 0, 1
 
 def main():
-    print "***************************************************"
-    print "*                    Checkers                     *"
-    print "*                                                 *"
-    print "*                 Andrew Edwards                  *"
-    print "*            www.almostimplemented.com            *"
-    print "***************************************************"
-    print "\n"
-    print "\n"
+    print ("***************************************************")
+    print ("*                    Checkers                     *")
+    print ("*                                                 *")
+    print ("*                 Andrew Edwards                  *")
+    print ("*            www.almostimplemented.com            *")
+    print ("***************************************************")
+    print ("\n")
+    print ("\n")
 
     n = -1
     while not n in [0, 1, 2]:
-        n = raw_input("How many human players? (0, 1, 2): ")
+        # n = raw_input("How many human players? (0, 1, 2): ")
+        n = input("How many human players? (0, 1, 2): ")
         try:
             n = int(n)
         except ValueError:
-            print "Please input 0, 1, or 2."
+            print ("Please input 0, 1, or 2.")
 
     if n == 2:
         B = checkers.CheckerBoard()
-        print "Black moves first."
+        print ("Black moves first.")
         turn = 1
         current_player = B.active
         while not game_over(B):
-            print B
+            print (B)
 
             legal_moves = B.get_moves()
 
             if B.jump:
-                print "Make jump."
-                print ""
+                print ("Make jump.")
+                print ("")
             else:
-                print "Turn %i" % turn
-                print ""
+                print ("Turn %i" % turn)
+                print ("")
 
             for (i, move) in enumerate(get_move_strings(B)):
-                print "Move " + str(i) + ": " + move
+                print ("Move " + str(i) + ": " + move)
 
             while True:
                 move_idx = raw_input("Enter your move number: ")
                 try:
                     move_idx = int(move_idx)
                 except ValueError:
-                    print "Please input a valid move number."
+                    print ("Please input a valid move number.")
                     continue
 
                 if move_idx in range(len(legal_moves)):
                     break
                 else:
-                    print "Please input a valid move number."
+                    print ("Please input a valid move number.")
                     continue
 
             B.make_move(legal_moves[move_idx])
 
             # If jumps remain, then the board will not update current player
             if B.active == current_player:
-                print "Jumps must be taken."
+                print ("Jumps must be taken.")
                 continue
             else:
                 current_player = B.active
                 turn += 1
 
-        print B
+        print (B)
         if B.active == WHITE:
-            print "Congrats Black, you win!"
+            print ("Congrats Black, you win!")
         else:
-            print "Congrats White, you win!"
+            print ("Congrats White, you win!")
 
         return 0
 
 
     elif n == 1:
-        agent_module = raw_input("Enter name of agent module: ");
+        agent_module = input("Enter name of agent module: "); #Changed raw_input
         __import__(agent_module)
         agent_module = sys.modules[agent_module]
         cpu = agent.CheckersAgent(agent_module.move_function)
         while True:
-            choice = raw_input("Enter 0 to go first and 1 to go second: ")
+            choice = input("Enter 0 to go first and 1 to go second: ")  #changed from raw_input
             try:
                 choice = int(choice)
                 break
             except ValueError:
-                print "Please input 0 or 1."
+                print ("Please input 0 or 1.")
                 continue
         turn = 0
         B = checkers.CheckerBoard()
         current_player = B.active
-        print "Black moves first."
+        print ("Black moves first.")
         while not B.is_over():
-            print B
+            print (B)
             if turn % 2 == choice:
                 legal_moves = B.get_moves()
                 if B.jump:
-                    print "Make jump."
-                    print ""
+                    print ("Make jump.")
+                    print ("")
                 else:
-                    print "Turn %i" % (turn + 1)
-                    print ""
+                    print ("Turn %i" % (turn + 1))
+                    print ("")
                 for (i, move) in enumerate(get_move_strings(B)):
-                    print "Move " + str(i) + ": " + move
+                    print ("Move " + str(i) + ": " + move)
                 while True:
-                    move_idx = raw_input("Enter your move number: ")
+                    move_idx = input("Enter your move number: ")  # changed from raw_input
                     try:
                         move_idx = int(move_idx)
                     except ValueError:
-                        print "Please input a valid move number."
+                        print ("Please input a valid move number.")
                         continue
                     if move_idx in range(len(legal_moves)):
                         break
                     else:
-                        print "Please input a valid move number."
+                        print ("Please input a valid move number.")
                         continue
                 B.make_move(legal_moves[move_idx])
                 # If jumps remain, then the board will not update current player
                 if B.active == current_player:
-                    print "Jumps must be taken."
+                    print ("Jumps must be taken.")
                     continue
                 else:
                     current_player = B.active
@@ -136,16 +137,16 @@ def main():
             else:
                 B.make_move(cpu.make_move(B))
                 if B.active == current_player:
-                    print "Jumps must be taken."
+                    print ("Jumps must be taken.")
                     continue
                 else:
                     current_player = B.active
                     turn += 1
-        print B
+        print (B)
         if B.active == WHITE:
-            print "Congrats Black, you win!"
+            print ("Congrats Black, you win!")
         else:
-            print "Congrats White, you win!"
+            print ("Congrats White, you win!")
         return 0
     else:
         agent_module = raw_input("Enter name of first agent module: ");
@@ -161,7 +162,7 @@ def main():
         B = checkers.CheckerBoard()
         current_player = B.active
         if debug:
-            print "sorry not ready"
+            print ("sorry not ready")
             return 0
         else:
             while not B.is_over():
@@ -173,9 +174,9 @@ def main():
                     B.make_move(cpu_2.make_move(B))
                 current_player = B.active
             if B.active == WHITE:
-                print "Congrats Black, you win!"
+                print ("Congrats Black, you win!")
             else:
-                print "Congrats White, you win!"
+                print ("Congrats White, you win!")
             return 0
 
 
@@ -237,6 +238,6 @@ if __name__ == '__main__':
         status = main()
         sys.exit(status)
     except KeyboardInterrupt:
-        print ""
-        print "Game terminated."
+        print ("")
+        print ("Game terminated.")
         sys.exit(1)
